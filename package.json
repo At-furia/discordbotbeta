@@ -1,7 +1,7 @@
 {
   "name": "discordbotbeta",
   "version": "1.0.0",
-  "main": "main.js",
+  "main": "index.js",
   "dependencies": {
     "discord.js": "^11.3.0",
     "express": "^4.16.2",
