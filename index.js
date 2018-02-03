@@ -495,9 +495,7 @@ bot.on('message', function(message){
 
     }
 
-    if(party_launch && message.content != null){
-
-        if(Number.isInteger(parseInt(message.content))){
+    
 
             
             if(message.content > number_random){
@@ -512,8 +510,8 @@ bot.on('message', function(message){
 
                 message.reply('à trouvé le bon nombre de Titans !');
                 party_launch = false;
-            }
-        }
+            
+        
     }
 
     if(message.content === prefix + "chasse stop"){
