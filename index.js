@@ -494,7 +494,9 @@ bot.on('message', function(message){
         console.log(number_random);
 
     }
+        if(party_launch && message.content != null){
 
+            if(Number.isInteger(parseInt(message.content))){
     
 
             
@@ -510,7 +512,8 @@ bot.on('message', function(message){
 
                 message.reply('à trouvé le bon nombre de Titans !');
                 party_launch = false;
-            
+            }
+        }
         
     }
 
