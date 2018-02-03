@@ -404,7 +404,59 @@ if (message.content === prefix + "majp"){
 }
     
 
-    
+    var number_random = 0;
+
+var party_launch = false;
+
+bot.on('message', function(message){
+    if(message.content == "pom start"){
+
+        message.reply("Partie lancée !")
+
+        party_launch = true;
+
+        number_random = Math.floor(Math.random() * (5000 - 0) + 0)
+
+        console.log(number_random);
+
+    }
+
+    if(party_launch && message.content != null){
+
+        if(Number.isInteger(parseInt(message.content))){
+
+            
+            if(message.content > number_random){
+
+                message.reply("Il y'a moins de Titans !")
+            }
+            else if (message.content < number_random){
+
+                message.reply("Il y'a plus de Titans !")
+            }
+            else{
+
+                message.reply('à trouvé le bon nombre de Titans !');
+                party_launch = false;
+            }
+        }
+    }
+
+    if(message.content == "pom stop"){
+
+        if(party_launch = true){
+
+            message.reply("Les Titans sont partis...")
+
+            party_launch = false;
+
+        }else{
+
+            message.reply("Il n'y a pas de Titans dans les environs")
+        }
+
+    }
+})
 
 
 
@@ -481,61 +533,3 @@ function randomkill(min, max) {
     randnum = Math.floor(Math.random() * (max - min) + min);
 
 }
-
-// JEU DU PLUS OU MOINS
-
-var number_random = 0;
-
-var party_launch = false;
-
-bot.on('message', function(message){
-    if(message.content == "pom start"){
-
-        message.reply("Partie lancée !")
-
-        party_launch = true;
-
-        number_random = Math.floor(Math.random() * (5000 - 0) + 0)
-
-        console.log(number_random);
-
-    }
-
-    if(party_launch && message.content != null){
-
-        if(Number.isInteger(parseInt(message.content))){
-
-            
-            if(message.content > number_random){
-
-                message.reply("Il y'a moins de Titans !")
-            }
-            else if (message.content < number_random){
-
-                message.reply("Il y'a plus de Titans !")
-            }
-            else{
-
-                message.reply('à trouvé le bon nombre de Titans !');
-                party_launch = false;
-            }
-        }
-    }
-
-    if(message.content == "pom stop"){
-
-        if(party_launch = true){
-
-            message.reply("Les Titans sont partis...")
-
-            party_launch = false;
-
-        }else{
-
-            message.reply("Il n'y a pas de Titans dans les environs")
-        }
-
-    }
-})
-
-
