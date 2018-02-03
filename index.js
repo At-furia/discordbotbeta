@@ -409,9 +409,10 @@ if (message.content === prefix + "majp"){
 var party_launch = false;
 
 bot.on('message', function(message){
-    if(message.content == "pom start"){
+    if(message.content === prefix + "chasse start"){
 
-        message.reply("Partie lancée !")
+        message.reply("Chasse lancée !");
+        message.reply(" :telescope: Je vois des Titans au loin, essaye de les compter ! tu as juste me dire combien tu vois et je te dirais si j'en vois autant ou pas ")
 
         party_launch = true;
 
@@ -442,7 +443,7 @@ bot.on('message', function(message){
         }
     }
 
-    if(message.content == "pom stop"){
+    if(message.content === prefix + "chasse stop"){
 
         if(party_launch = true){
 
