@@ -482,7 +482,7 @@ function randomkill(min, max) {
 var party_launch = false;
 
 bot.on('message', function(message){
-    if(message.content === prefix + "chasse start"){
+    if(message.content == prefix + "chasse start"){
 
         message.reply("Chasse lancée ! :telescope: Je vois des Titans au loin, essaye de les compter ! tu as juste me dire combien tu vois et je te dirais si j'en vois autant ou pas ");
         
@@ -517,7 +517,7 @@ bot.on('message', function(message){
         
     }
 
-    if(message.content === prefix + "chasse stop"){
+    if(message.content == prefix + "chasse stop"){
 
         if(party_launch = true){
 
