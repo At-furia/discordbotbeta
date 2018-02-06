@@ -75,6 +75,8 @@ bot.on('message', message => {
   
   let guild = message.member.guild;
   let Role = guild.roles.find('name', 'exploration');
+  let Roletest1 = guild.roles.find('name', 'garnison');
+  let Roletest = guild.roles.find('name', 'spéciale');
 
   
   if(!message.content.startsWith(prefix)) return;
@@ -87,8 +89,8 @@ bot.on('message', message => {
     else {
     message.member.addRole(Role);
     message.channel.sendMessage("Tu as rejoint le bataillon d'exploration !");
-    message.member.removeRole(garnison);
-    message.member.removeRole(spéciale);
+    message.member.removeRole(Roletest1);
+    message.member.removeRole(Roletest);
     console.log(`${message.author.username} got a role`);
   };}});
 
