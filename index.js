@@ -354,7 +354,7 @@ bot.on('message', message => {
 
     }
 
-    if (message.content === prefix + "réseaux"){
+    if (message.content === prefix + "réseaux" || message.content = prefix + "reseau" || message.content = prefix + "twitter" || message.content = prefix + "rs"){
         var réseaux_embed = new Discord.RichEmbed()
                 .setColor('#D9F200')
                 .setTimestamp()
