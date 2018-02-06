@@ -75,8 +75,8 @@ bot.on('message', message => {
   
   let guild = message.member.guild;
   let Role = guild.roles.find('name', 'exploration');
-  let Roletest1 = guild.roles.find('name', 'garnison');
-  let Roletest = guild.roles.find('name', 'spéciale');
+  let Roleremovegarnison = guild.roles.find('name', 'garnison');
+  let Roleremovespéciale = guild.roles.find('name', 'spéciale');
 
   
   if(!message.content.startsWith(prefix)) return;
@@ -89,8 +89,8 @@ bot.on('message', message => {
     else {
     message.member.addRole(Role);
     message.channel.sendMessage("Tu as rejoint le bataillon d'exploration !");
-    message.member.removeRole(Roletest1);
-    message.member.removeRole(Roletest);
+    message.member.removeRole(Roleremovegarnison);
+    message.member.removeRole(Roleremovespéciale);
     console.log(`${message.author.username} got a role`);
   };}});
 
@@ -130,6 +130,8 @@ bot.on('message', message => {
   
   let guild = message.member.guild;
   let Role = guild.roles.find('name', 'garnison');
+  let Roleremoveexploration = guild.roles.find('name', 'exploration');
+  let Roleremovespéciale = guild.roles.find('name', 'spéciale');
   
   if(!message.content.startsWith(prefix)) return;
   
@@ -141,6 +143,8 @@ bot.on('message', message => {
     else {
     message.member.addRole(Role);
     message.channel.sendMessage('Tu as rejoint la Garnison !');
+    message.member.removeRole(Roleremoveexploration);
+    message.member.removeRole(Roleremovespéciale);
     console.log(`${message.author.username} got a role`);
   };}});
 
@@ -151,6 +155,8 @@ bot.on('message', message => {
   
   let guild = message.member.guild;
   let Role = guild.roles.find('name', 'spéciale');
+  let Roleremoveexploration = guild.roles.find('name', 'exploration');
+  let Roleremovegarnison = guild.roles.find('name', 'garnison');
   
   if(!message.content.startsWith(prefix)) return;
   
@@ -162,6 +168,8 @@ bot.on('message', message => {
     else {
     message.member.addRole(Role);
     message.channel.sendMessage('Tu as rejoint la brigade Spéciale !');
+    message.member.removeRole(Roleremoveexploration);
+    message.member.removeRole(Roleremovegarnison);
     console.log(`${message.author.username} got a role`);
   };}});
 
