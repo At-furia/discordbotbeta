@@ -81,7 +81,7 @@ bot.on('message', message => {
   
   if(!message.content.startsWith(prefix)) return;
   
-  if (message.content.startsWith(prefix + 'exploration') || message.content.startsWith(prefix + 'exploration') ) {
+  if (message.content.startsWith(prefix + 'exploration') || message.content.startsWith(prefix + 'ex') ) {
     if (message.member.roles.has(Role.id)) {
         message.channel.sendMessage('tu possède déjà ce rôle !');
         console.log(`${message.author.username} possède déjà ce rôle !`);
@@ -135,7 +135,7 @@ bot.on('message', message => {
   
   if(!message.content.startsWith(prefix)) return;
   
-  if (message.content.startsWith(prefix + 'garnison') || message.content.startsWith(prefix + 'garnison') ) {
+  if (message.content.startsWith(prefix + 'garnison') || message.content.startsWith(prefix + 'ga') ) {
     if (message.member.roles.has(Role.id)) {
         message.channel.sendMessage('tu possède déjà ce rôle !');
         console.log(`${message.author.username} possède déjà ce rôle !`);
@@ -160,7 +160,7 @@ bot.on('message', message => {
   
   if(!message.content.startsWith(prefix)) return;
   
-  if (message.content.startsWith(prefix + 'spéciale') || message.content.startsWith(prefix + 'spéciale') ) {
+  if (message.content.startsWith(prefix + 'spéciale') || message.content.startsWith(prefix + 'bs') ) {
     if (message.member.roles.has(Role.id)) {
         message.channel.sendMessage('tu possède déjà ce rôle !');
         console.log(`${message.author.username} possède déjà ce rôle !`);
