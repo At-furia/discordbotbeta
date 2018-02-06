@@ -86,6 +86,9 @@ bot.on('message', message => {
     else {
     message.member.addRole(Role);
     message.channel.sendMessage("Tu as rejoint le bataillon d'exploration !");
+    message.member.removeRole(garnison)
+    message.member.removeRole(spéciale)
+        
     console.log(`${message.author.username} got a role`);
   };}});
 
