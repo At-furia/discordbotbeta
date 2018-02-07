@@ -522,8 +522,7 @@ bot.on('message', function(message){
                 message.reply("Il y'a plus de Titans !")
             }
             else if (message.content = number_random + "/"){
-
-                message.reply()
+                
             }else{
 
                 message.reply('à trouvé le bon nombre de Titans !');
