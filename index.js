@@ -523,7 +523,8 @@ bot.on('message', function(message){
             }
             else if (message.content = number_random + "/"){
                 
-            }else{
+                message.reply("Je n'ai pas compris votre réponse !")
+            else{
 
                 message.reply('à trouvé le bon nombre de Titans !');
                 party_launch = false;
