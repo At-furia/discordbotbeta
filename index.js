@@ -524,7 +524,7 @@ bot.on('message', function(message){
             else if (message.content = number_random + "/"){
                 
                 message.reply("Je n'ai pas compris votre réponse !")
-            }else{
+            }else (message.content = number_random){
 
                 message.reply('à trouvé le bon nombre de Titans !');
                 party_launch = false;
