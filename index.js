@@ -22,6 +22,7 @@ var lul = db.get('lul').size().value();
 var storynumber = db.get('perso').size().value();
 var rlul = db.get('lul').size().value();
 var rkill = db.get('kill').size().value();
+  bot.login(process.env.TOKEN);
 
 bot.on('ready', () => {
     bot.user.setPresence({ game: { name: 'SNK - <help', type: 3}})
@@ -30,7 +31,6 @@ bot.on('ready', () => {
     })
 
 
-bot.login('');
 
 
 bot.on("guildMemberAdd", member => {
