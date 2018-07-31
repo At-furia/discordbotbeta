@@ -1,5 +1,5 @@
 
-DATABASE_URL=postgres://klemncqtauubmn:4c1d83eda57c69333d8d6b299035eb7c3897edd57560a08276635ad6e67af881@ec2-54-217-235-137.eu-west-1.compute.amazonaws.com:5432/d9si3oambk8i2v
+DATABASE_URL=postgres;//klemncqtauubmn:4c1d83eda57c69333d8d6b299035eb7c3897edd57560a08276635ad6e67af881@ec2-54-217-235-137.eu-west-1.compute.amazonaws.com:5432/d9si3oambk8i2v
 
 
 const Discord = require('discord.js');
