@@ -415,7 +415,17 @@ bot.on('message', message => {
         }
     }
 
-
+if (message.content = prefix + "resetalex") {
+    db.get("game").find({ game1: "ok" }).assign({
+        player1ok: viee[2] = 1,
+        player2ok: viee[4] = 1,
+        gamego: viee[5] = 1,
+        player1vote: viee[6] = "nop",
+        player2vote: viee[7] = "nop",
+        player1: viee[1] = "fdgvd",
+        player2: viee[3] = "frfd"
+    }).write();
+}
     // let sald = message.guild.channels.find(channels => channels.name ===  "test");
     // if (message.channel === sald) { 
 
