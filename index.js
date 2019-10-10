@@ -1,556 +1,485 @@
-
-DATABASE_URL=postgres;//klemncqtauubmn:4c1d83eda57c69333d8d6b299035eb7c3897edd57560a08276635ad6e67af881@ec2-54-217-235-137.eu-west-1.compute.amazonaws.com:5432/d9si3oambk8i2v
-
-
 const Discord = require('discord.js');
 const low = require('lowdb')
-const FileSync = require ('lowdb/adapters/FileSync')
+const FileSync = require('lowdb/adapters/FileSync')
 const fs = require("fs");
+require('events').EventEmitter.prototype._maxListeners = 250;
+require('events').EventEmitter.defaultMaxListeners = 250;
+
 
 const adapter = new FileSync('database.json');
 const db = low(adapter);
+var cartes = db.get('cartes').size().value();
 
-db.defaults({xp: [], sugg: [], story: [], perso: [], lul:[], blagues:[], kill:[]}).write()
+db.defaults({ game: [], gamep: [], chasse: [], playergame: [], money: [], lvl: [], xp: [], pt: [1], pendu: [], devine: [] }).write()
 
-
-
+var prefix = "<"
 var bot = new Discord.Client();
-var prefix = ("<");
 var randnum = 0;
-var storynumber = db.get('blagues').size().value();
-var lul = db.get('lul').size().value();
-var storynumber = db.get('perso').size().value();
-var rlul = db.get('lul').size().value();
-var rkill = db.get('kill').size().value();
-  bot.login(process.env.TOKEN);
 
 bot.on('ready', () => {
-    bot.user.setPresence({ game: { name: 'SNK - <help', type: 3}})
+    bot.user.setPresence({ game: { name: 'Malik ton café', type: 3 } });
+    bot.user.setStatus("idle");
     console.log("Bot Ready !");
 
-    })
+})
+
+bot.login(process.env.TOKEN);
 
 
+// bot.on('message', message => {
 
+//     const valeurcartes = ["0",
+//     "0b","1b","2b","3b","4b","5b","6b","7b","8b","9b",
+//     "0v","1v","2v","3v","4v","5v","6v","7v","8v","9v",
+//     "0j","1j","2j","3j","4j","5j","6j","7j","8j","9j",
+//     "0r","1r","2r","3r","4r","5r","6r","7r","8r","9r",
+//     "return","+2","interdiction","+4","joker"]
+//     if (message.author.bot) return;
+//     if (message.channel.type === 'dm') return;
 
-bot.on("guildMemberAdd", member => {
-    let role = member.guild.roles.find("name", "brigade d'entrainement");
-    var bienvenue_embed = new Discord.RichEmbed()
+//     random = Math.ceil(Math.random() * 41);
+//     random1 = Math.ceil(Math.random() * 41);
+//     random2 = Math.ceil(Math.random() * 41);
+//     random3 = Math.ceil(Math.random() * 41);
+//     random4 = Math.ceil(Math.random() * 41);
+//     random5 = Math.ceil(Math.random() * 41);
+//     random6 = Math.ceil(Math.random() * 41);
 
-    
-    .addField(`Présentation`,`
-    Vous venez d'integrer le monde de Shingeki No Kyojin - FR,
-    nous vous félicitions pour votre intégrations au brigades d'entraînements.
-    
-    *Vous devez désormais choisir un corps d'armée entre :
-    -La Garnison
-    -Le Bataillon d'Exploration
-    -Les Brigades Spéciales
+//     var cartesaleatoire = valeurcartes[random];
+//     var cartesaleatoire1 = valeurcartes[random1];
+//     var cartesaleatoire2 = valeurcartes[random2];
+//     var cartesaleatoire3 = valeurcartes[random3];
+//     var cartesaleatoire4 = valeurcartes[random4];
+//     var cartesaleatoire5 = valeurcartes[random5];
+//     var cartesaleatoire6 = valeurcartes[random6];
 
-    SNK-FR vous expliquera le fonctionnement plus bas dans vos messages :ok_hand:
-
-    Soyez poli et courtois, un français correct est demandé au minimum.
-    Le respect est de vigueur, les propos rascistes, injure ou autre ne seront pas toléré.`)
-    .setFooter( `*Ne vous inquietez pas, la faction c'est juste pour le RP, histoire de s'amuser, vous aurez les même droits sur le 
-    serveur quel que soit votre faction.
-    Aussi, nous vous demandons de jouer le jeu et de choisir un pseudo de personnage en lien avec SNK`)
-    .addBlankField()
-    member.sendMessage(bienvenue_embed);
-
-    var bienvenue2_embed = new Discord.RichEmbed()
-    .addField(`Présentation de SNK-FR`,`
-    Bonjour je me présente : SNK-FR, je suis votre "guide" dans cette ville !
-    Nous allons commencer par choisir votre corps d'armée !
-    Pour cela il vous suffit de taper <garnison OU <bataillon OU <b-spéciales
-    
-    Une fois votre corps d'armée choisit, vous avez a disposition plusieurs commandes
-    qui vous seront détaillées en tapant <help !
-    Il vous sera aussi possible de gagner des titres grâce a des "jeux" !`)
-    member.sendMessage(bienvenue2_embed);
-    member.addRole(role)
-});
-
-    
-bot.on('message', message => {
-
-    if (message.author.bot) return;
-    if (message.channel.type === 'dm') return;
-  
-  let guild = message.member.guild;
-  let Role = guild.roles.find('name', 'exploration');
-  let Roleremovegarnison = guild.roles.find('name', 'garnison');
-  let Roleremovespéciale = guild.roles.find('name', 'spéciale');
-
-  
-  if(!message.content.startsWith(prefix)) return;
-  
-  if (message.content.startsWith(prefix + 'exploration') || message.content.startsWith(prefix + 'ex') ) {
-    if (message.member.roles.has(Role.id)) {
-        message.channel.sendMessage('tu possède déjà ce rôle !');
-        console.log(`${message.author.username} possède déjà ce rôle !`);
-   }
-    else {
-    message.member.addRole(Role);
-    message.channel.sendMessage("Tu as rejoint le bataillon d'exploration !");
-    message.member.removeRole(Roleremovegarnison);
-    message.member.removeRole(Roleremovespéciale);
-    console.log(`${message.author.username} got a role`);
-  };}});
-
-  
-
-  let points = JSON.parse(fs.readFileSync('./points.json', 'utf8'));
-
-  bot.on('message', message => {
-
-    var msgauthor = message.author.username;
-    if(message.author.bot) return;
-  if(!points[message.author.id]) points[message.author.id] = {points: 0, level: 0};
-  let userData = points[message.author.id];
-  userData.points++;
-  let curLevel = Math.floor(0.1 * Math.sqrt(userData.points));
-  if(curLevel > userData.level) {
-  // Level up!
-  userData.level = curLevel;
-  message.reply(`Vous avait passer un niveau **${curLevel}**! ça fait quoi de vieillir?`);
-  }
-  if(message.content.startsWith(prefix + "level")) {
-  message.reply(`Vous êtes actuellement niveau ${userData.level}, avec ${userData.points}
-  expériences.`);
-  }
-  if(!db.get("xp").find({username: msgauthor}).value()){
-    db.get("xp").push({username: msgauthor, xp: 1}).write();
-}else
-  fs.writeFile('./points.json', JSON.stringify(points), (err) => {if(err) console.error(err)});
-  });
-
-
-
-  bot.on('message', message => {
-
-    if (message.author.bot) return;
-    if (message.channel.type === 'dm') return;
-  
-  let guild = message.member.guild;
-  let Role = guild.roles.find('name', 'garnison');
-  let Roleremoveexploration = guild.roles.find('name', 'exploration');
-  let Roleremovespéciale = guild.roles.find('name', 'spéciale');
-  
-  if(!message.content.startsWith(prefix)) return;
-  
-  if (message.content.startsWith(prefix + 'garnison') || message.content.startsWith(prefix + 'ga') ) {
-    if (message.member.roles.has(Role.id)) {
-        message.channel.sendMessage('tu possède déjà ce rôle !');
-        console.log(`${message.author.username} possède déjà ce rôle !`);
-   }
-    else {
-    message.member.addRole(Role);
-    message.channel.sendMessage('Tu as rejoint la Garnison !');
-    message.member.removeRole(Roleremoveexploration);
-    message.member.removeRole(Roleremovespéciale);
-    console.log(`${message.author.username} got a role`);
-  };}});
-
-  bot.on('message', message => {
-
-    if (message.author.bot) return;
-    if (message.channel.type === 'dm') return;
-  
-  let guild = message.member.guild;
-  let Role = guild.roles.find('name', 'spéciale');
-  let Roleremoveexploration = guild.roles.find('name', 'exploration');
-  let Roleremovegarnison = guild.roles.find('name', 'garnison');
-  
-  if(!message.content.startsWith(prefix)) return;
-  
-  if (message.content.startsWith(prefix + 'spéciale') || message.content.startsWith(prefix + 'bs') ) {
-    if (message.member.roles.has(Role.id)) {
-        message.channel.sendMessage('tu possède déjà ce rôle !');
-        console.log(`${message.author.username} possède déjà ce rôle !`);
-   }
-    else {
-    message.member.addRole(Role);
-    message.channel.sendMessage('Tu as rejoint la brigade Spéciale !');
-    message.member.removeRole(Roleremoveexploration);
-    message.member.removeRole(Roleremovegarnison);
-    console.log(`${message.author.username} got a role`);
-  };}});
+//     if (message.content == prefix + "tirer") {
+//         // message.reply(`${cartesaleatoire} ` + `${cartesaleatoire1} `  + `${cartesaleatoire2} ` + `${cartesaleatoire3} ` + `${cartesaleatoire4} ` + `${cartesaleatoire5} ` + `${cartesaleatoire6} `)
+//         if(!db.get("cartes").find({cartes: valeurcartes}).value()){
+//             db.get("cartes").push({cartes: valeurcartes}).write();   
+//     }
+//         db.get("cartes").push({ cartes: valeurcartes[1]}).write();
+// }
+// })
 
 
 bot.on('message', message => {
 
+    if (message.author.bot) return;
     var msgauthor = message.author.username;
+    var msgauthorid = message.author.id;
+    var vieedb = db.get("game").filter({ game1: "ok" }).find('player2').value();
+    var viee = Object.values(vieedb)
 
-    if(message.author.bot)return;
-
-    if(!db.get("xp").find({username: msgauthor}).value()){
-        db.get("xp").push({username: msgauthor, xp: 1}).write();
-    }else{
-        var userxpdb = db.get("xp").filter({username: msgauthor}).find('xp').value();
-        console.log(userxpdb);
-        var userxp = Object.values(userxpdb)
-        console.log(userxp);
-        console.log(`Nombre d'xp : ${userxp[1]}`)
-
-        db.get("xp").find({username: msgauthor}).assign({username: msgauthor, xp: userxp[1] += 1}).write();
+    if (message.content == prefix + "?") {
+        var r_embed = new Discord.RichEmbed()
+            .setTitle("Règles/fonctionnement du jeu")
+            .setDescription("Le jeu nécessite 2 joueurs, il est basé sur de la chance et un peu de stratégie.")
+            .addField("Début du jeu", "Les deux joueurs doivent faire <p1 ou <p2")
+            .addField("Tirage des cartes", "Les deux joueurs doivent faire la commande <tirer pour recevoir leurs tirages en mp")
+            .addField("Vote", "Les deux joueurs doivent voter avec <win ou <loose EN MP AVEC LE BOT si vous pensez gagner ou perdre avec vos tirages (si vous pronostiquez bien, vous gagner des points, si non, vous en perdez)")
+            .addField("Fin de la partie", "Un des deux joueurs doit faire <result SUR LE CANAL GENERAL pour voir le résultat de la partie")
+            .addField("Statistiques", "Faire la commande <stat pour voir ses stats, ou <stat +mention pour voir les stats d'un membre précis")
+        message.channel.send({ embed: r_embed });
 
     }
+    if (message.content == prefix + "p1") {
+        if (message.channel.type === 'dm') return;
 
-   
-
-   
-    
-   
-
-    if (!message.content.startsWith(prefix)) return;
-    var args = message.content.substring(prefix.length).split(" ");
-
-    switch (args[0].toLowerCase()){
-
-
-        case "newblague":
-        var value = message.content.substr(10);
-        var author = message.author.username.toString();
-        var number = db.get('blagues').map('id').value();
-        console.log(value);
-        message.reply("Ajout de la blague a la base de données")
-
-        db.get('blagues')
-            .push({ story_value: value, story_author: author})
-            .write();
-        break;
-
-        case "blagues" :
-
-        story_random();
-        console.log(randnum);
-
-        var story = db.get(`blagues[${randnum}].story_value`).toString().value();
-        var author_story = db.get(`blagues[${randnum}].story_author`).toString().value();
-        console.log(story);
-
-        message.channel.send(`${story} (Blague de ${author_story})`)
-        break;
-
-        case "rdm" :
-
-        story_random();
-        console.log(randnum);
-
-        var story = db.get(`perso[${randnum}].perso_value`).toString().value();
-        console.log(story);
-
-        message.channel.send(`${story}`)
-
-        case "rdm" :
-
-        story_random();
-        message.channel.send(`est en train de...`)
-
-        case "rdm" :
-
-        randomlul();
-        console.log(randnum);
-
-        var lul = db.get(`lul[${randnum}].lul_value`).toString().value();
-        console.log(story);
-
-        message.channel.send(`${lul}`)
-
-        break;
-
-
-        case "kill" :
-
-            randomkill();
-
-            var titankill = Math.floor(Math.random() * 101);
-            var kill = db.get(`kill[${randnum}].kill_value`).toString().value();
-            message.reply("a tué " + titankill + " Titans" + `${kill}`)
-            
-        break;
-
-        case  "kick":
-
-    if (!message.channel.permissionsFor(message.member).hasPermission("KICK_MEMBERS")){
-        message.reply("Tu n'as pas le droit de kick ! ;)")
-    }else{
-        var memberkick = message.mentions.users.first();
-        console.log(memberkick)
-        console.log(message.guild.member(memberkick).kickable)
-        if(!memberkick){
-            message.reply("L'utilisateur n'existe pas !");
-        }else{
-            if(!message.guild.member(memberkick).kickable){
-                message.reply("Utilisateur impossible a kick !");
-            }else{
-                message.guild.member(memberkick).kick().then((member) => {
-                message.channel.send(`${member.displayName}a été kick du serveur !`);
-            }).catch(() => {
-                message.channel.send("Kick Refusé!")
-            })
+        if (!db.get("gamep").find({ id: msgauthorid }).value()) {
+            db.get("gamep").push({ username: msgauthor, points: 1501, victoires: 1, défaites: 1, total: 1, id: msgauthorid, egalite: 1 }).write();
         }
-    }}
+        var pointsdb = db.get("gamep").filter({ id: msgauthorid }).find('points').value()
+        var points = Object.values(pointsdb);
+        db.get("gamep").find({ id: msgauthorid }).assign({ id: msgauthorid, points: points[1] += 0 }).write();
+        if (viee[2] == 1) {
+            if (viee[3] == msgauthor) {
+                message.reply("Vous ne pouvez pas jouer contre vous même..")
+            } else {
+                message.reply("Participation validée")
+                db.get("game").find({ game1: "ok" }).assign({ player1: viee[1] = msgauthor, player1ok: viee[2] = 2, player1id: viee[18] = msgauthorid }).write();
 
-        break;
+                if (viee[4] == 2) {
+                    var points1db = db.get("gamep").filter({ id: viee[18] }).find(`points`).value();
+                    var points1 = Object.values(points1db)
+                    var points2db = db.get("gamep").filter({ id: viee[19] }).find(`points`).value();
+                    var points2 = Object.values(points2db)
+                    var percent1 = Math.floor(100 * `${points1[2] -= 1}` / `${points1[4] -= 1}`) + '%';
+                    var percent2 = Math.floor(100 * `${points2[2] -= 1}` / `${points2[4] -= 1}`) + '%';
+                    var xp_embed = new Discord.RichEmbed()
+                        .setColor("#590599")
+                        .setTitle("●▬▬▬▬๑۩★۩๑▬▬▬▬● Bᴀᴛᴀɪʟʟᴇ Tɪᴛᴀɴᴇsϙᴜᴇ ●▬▬▬▬๑۩★۩๑▬▬▬▬●")
+                        .addField(`Joueur 1 (${viee[1]}) :`, `◄[🥇]► Victoires : ${points1[2]}\n◄[🥈]► Défaites : ${points1[3] += -1}\n◄[󠀽🤔]► Egalités : ${points1[6] += -1}\n◄[🏆]► Points cumulés : ${points1[1] += -1}\n◄[⚔️]► Nombre de parties jouées : ${points1[4]}\n◄[⚖️]► ${percent1} de victoires`)
+                        .addField(`Joueur 2 (${viee[3]}) :`, `◄[🥇]► Victoires : ${points2[2]}\n◄[🥈]► Défaites : ${points2[3] += -1}\n◄[󠀽🤔]► Egalités : ${points2[6] += -1}\n◄[🏆]► Points cumulés : ${points2[1] += -1}\n◄[⚔️]► Nombre de parties jouées : ${points2[4]}\n◄[⚖️]► ${percent2} de victoires`)
+                        .setFooter("★━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━★")
 
-        case  "ban":
-
-        if (!message.channel.permissionsFor(message.member).hasPermission("BAN_MEMBERS")){
-            message.reply("Tu n'as pas le droit de ban ! ;)")
-        }else{
-            var memberban = message.mentions.users.first();
-            console.log(memberban)
-            console.log(message.guild.member(memberban).bannable)
-            if(!memberban){
-                message.reply("L'utilisateur n'existe pas !");
-            }else{
-                if(!message.guild.member(memberban).bannable){
-                    message.reply("Utilisateur impossible a ban !");
-                }else{
-                    message.guild.member(memberban).ban().then((member) => {
-                    message.channel.send(`${member.displayName}a été ban du serveur !`);
-                }).catch(() => {
-                    message.channel.send("Ban Refusé!")
-                })
+                    message.channel.send({ embed: xp_embed });
+                    db.get("game").find({ game1: "ok" }).assign({ gamego: viee[5] = "tirage" }).write();
+                    message.reply("La partie commence !\nTirez 2 cartes ! (<tirer)")
+                }
             }
-        }}
-
-    break;
-
-    case "sugg":
-
-    var value = message.content.substr(6);
-        var author = message.author.username.toString();
-        var number = db.get('sugg').map('id').value();
-        console.log(value);
-        message.reply("La suggestion a bien été prise ajoutée dans les demandes !")
-
-        db.get('sugg')
-            .push({ story_value: value, story_author: author})
-            .write();
-        break;
-
-        case "stats" : 
-
-        var userMessageDB = db.get("xp").filter({username: msgauthor}).find("xp").value();
-        var userXP = Object.values(userxpdb);
-        var stats_embed = new Discord.RichEmbed()
-            .setTitle(`Nombre de messages de : ${message.author.username}`)
-            .addField("Messages", `${userXP[1]} messages`, true)
-            .addField("Nom du membre", msgauthor, true)
-
-            message.channel.send({embed: stats_embed})
-    }
-    
-
-    if (message.content === prefix + "help"){
-    var help_embed = new Discord.RichEmbed()
-            .setColor('#D9F200')
-            .addField("Fonctionnement des commandes", "Chaque membre possède les commande de son grade sur le discord ainsi que les commandes des grades inférieurs ")
-            .addField("Commandes Brigade d'entrainement", "<réseaux Affiche les différents réseaux sociaux de la communauté SNK - FR")
-            .addField("Commandes Bataillon d'exploration, Garnison et Brigades Spéciales ", "<sugg Envoyer une suggestion d'amélioration du serveur Discord.\n<stats Voir son nombre de messages sur le serveur. ")
-            .addField("Commandes Esquade Livaï", "<admin Affiche les commandes Admin.")
-            .setFooter("Crée par Alex_ et Eren Jäger")
-        message.channel.sendEmbed(help_embed);
-        console.log("Commande Help demandée"); 
-
-    }
-
-    if (message.content.startsWith( prefix + "réseaux") || message.content.startsWith(prefix + "reseau") || message.content.startsWith(prefix + "twitter") || message.content.startsWith(prefix + "rs")){
-        var réseaux_embed = new Discord.RichEmbed()
-                .setColor('#D9F200')
-                .setTimestamp()
-                .addField("Site", "En construction")
-                .setDescription("Nos réseaux sociaux !","https://vignette.wikia.nocookie.net/shingekinokyojin/images/2/2e/Eren_anime_character_image.png")
-                .setThumbnail("http://i.imgur.com/p2qNFag.png")
-                .setURL("https://discord.js.org/#/docs/main/indev/class/RichEmbed")
-                .addField("Twitter", "https://twitter.com/FR_SNK")
-                .addField("Facebook", "https://www.facebook.com/Shingeki-no-kyojin-3-147624222254357/ \nhttps://www.facebook.com/SNKFrance/")
-                .addField("Youtube", "https://www.youtube.com/channel/UCKzU9176ms-0z6Kmjpz2Onw")
-                .addField("Partenaires", "https://twitter.com/BlaBla_Manga \nhttps://www.youtube.com/channel/UCMj7bG6yzvJAn1rfGN-kE9g")
-                .setFooter("Crée par Alex_ et Eren Jäger","https://vignette.wikia.nocookie.net/shingekinokyojin/images/2/2e/Eren_anime_character_image.png")
-            message.channel.sendEmbed(réseaux_embed);
-            console.log("Commande réseaux demandée"); 
-    
         }
+    }
+    if (message.content == prefix + "p2") {
+        if (message.channel.type === 'dm') return;
 
-        if (message.content === prefix + "admin"){
-            if(!message.member.roles.some(r=>["Escuade Livaï","test"].includes(r.name)) )
-            return message.reply("Vous n'êtes pas assez gradé pour utiliser cette commande !");
-            
-            var admin_embed = new Discord.RichEmbed()
-                    .setColor('#D9F200')
-                    .addField("Commandes Modération", "/kick @PseudoDuMembre\n/ban @PseudoDuMembre")
-                    .setFooter("Crée par Alex_ et Eren Jäger")
-                message.author.sendMessage(admin_embed);
-                console.log("Commande Admin demandée"); 
-        
-        
+        if (!db.get("gamep").find({ id: msgauthorid }).value()) {
+            db.get("gamep").push({ username: msgauthor, points: 1501, victoires: 1, défaites: 1, total: 1, id: msgauthorid, egalite: 1 }).write();
+        }
+        if (viee[4] == 1) {
+            if (viee[1] == msgauthor) {
+                message.reply("Vous ne pouvez pas jouer contre vous même..")
+            } else {
+                message.reply("Participation validée")
+
+                db.get("game").find({ game1: "ok" }).assign({ player2ok: viee[4] = 2, player2: viee[3] = msgauthor, player2id: viee[19] = msgauthorid }).write();
+
+                if (viee[2] == 2) {
+                    var points1db = db.get("gamep").filter({ id: viee[18] }).find(`points`).value();
+                    var points1 = Object.values(points1db)
+                    var points2db = db.get("gamep").filter({ id: viee[19] }).find(`points`).value();
+                    var points2 = Object.values(points2db)
+                    var percent1 = Math.floor(100 * `${points1[2] -= 1}` / `${points1[4] -= 1}`) + '%';
+                    var percent2 = Math.floor(100 * `${points2[2] -= 1}` / `${points2[4] -= 1}`) + '%';
+                    var xp_embed = new Discord.RichEmbed()
+                        .setColor("#590599")
+                        .setTitle("●▬▬▬▬๑۩★۩๑▬▬▬▬● Bᴀᴛᴀɪʟʟᴇ Tɪᴛᴀɴᴇsϙᴜᴇ ●▬▬▬▬๑۩★۩๑▬▬▬▬●")
+                        .addField(`Joueur 1 (${viee[1]}) :`, `◄[🥇]► Victoires : ${points1[2]}\n◄[🥈]► Défaites : ${points1[3] += -1}\n◄[󠀽🤔]► Egalités : ${points1[6] += -1}\n◄[🏆]► Points cumulés : ${points1[1] += -1}\n◄[⚔️]► Nombre de parties jouées : ${points1[4]}\n◄[⚖️]► ${percent1} de victoires`)
+                        .addField(`Joueur 2 (${viee[3]}) :`, `◄[🥇]► Victoires : ${points2[2]}\n◄[🥈]► Défaites : ${points2[3] += -1}\n◄[🤔]► Egalités : ${points2[6] += -1}\n◄[🏆]► Points cumulés : ${points2[1] += -1}\n◄[⚔️]► Nombre de parties jouées : ${points2[4]}\n◄[⚖️]► ${percent2} de victoires`)
+                        .setFooter("★━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━★")
+                    message.channel.send({ embed: xp_embed });
+                    db.get("game").find({ game1: "ok" }).assign({ gamego: viee[5] = "tirage" }).write();
+                    message.channel.send("La partie commence !\nTirez 2 cartes ! (<tirer)")
+                }
+            }
+        }
     }
 
-    if (message.content === prefix + "maj"){        
-        var maj_embed = new Discord.RichEmbed()
-                .setColor('#D2F200')
-                .addField("Mise à jour","Serveur de test")
-                .addField(":tools: Commandes ajoutées :tools: ", "31/01/2018 10:00")
-                .addField("<rdm", "Ajout de la commande <rdm qui donne un personnage + un evenement aléatoire :x:")               
-                .addField("Etat des commandes", ":punch: = pas encore sur le discord SNK.\n:ok_hand:  =  Ok sur le discord SNK.\n:x: = Ne marche pas correctement.")
-                .setFooter("Crée par Alex_")
-            message.author.sendMessage(maj_embed);
-            console.log("Commande maj demandée"); 
-    
-    
-}
-if (message.content === prefix + "majp"){        
-    var majp_embed = new Discord.RichEmbed()
-            .setColor('#D2F200')
-            .addField("Mise à jour","Serveur de test")
-            .addField(":tools: Commandes ajoutées :tools: ", "31/01/2018 10:00")
-            .addField("Message de bienvenue", "Amélioration du message de bienvenue lorsqu'un nouveau membre arrive sur le serveur :ok_hand: ")
-            .addField("Weebhooks", "Création d'un Weebhooks qui poste automatiquement les vidéos Youtube. :punch:")
-            .addField("<pfc", "Ajout de la commande <pfc qui est totalement inutile mais j'avais envie, c'est pour un pierre feuille ciseau ! :x:")
-            .addField("<pf", "Ajout de la commande <pf qui est totalement inutile mais j'avais envie, c'est pour un pile ou face ! :x:")  
-            .addField("Etat des commandes", ":punch: = pas encore sur le discord SNK.\n:ok_hand:  =  Ok sur le discord SNK.\n:x: = Ne marche pas correctement.")
-            .setFooter("Crée par Alex_")
-            message.channel.sendEmbed(majp_embed);
-        console.log("Commande majp demandée"); 
-}
-           
+    var valeurcartes = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]
+    random = Math.ceil(Math.random() * 9);
+    randome = Math.ceil(Math.random() * 9);
+    var cartesaleatoire = valeurcartes[random];
+    var cartesaleatoired = valeurcartes[randome];
+    //var bonus = ["", "patates 🥔", "pains 🥖", "barres de survie 🍫", "bouteilles de champagne 🍾", "badges du Bataillon d'Exploration " + bot.emojis.find("name", "bataillon"), "badges des Brigades Spéciales " + bot.emojis.find("name", "brigadespeciale"), "badges de la Garnison " + bot.emojis.find("name", "garnison")]
+    randomb = Math.ceil(Math.random() * 7);
+    randombe = Math.ceil(Math.random() * 7);
 
-    
+    //var bonusrandom = bonus[randomb];
+    //var bonusrandome = bonus[randombe];
 
-    if (message.content === prefix + "msgstat"){
-        var xp = db.get("xp").filter({username: msgauthor}).find('xp').value()
-        var xpfinal = Object.values(xp);
+    var tirageobjet = new Discord.RichEmbed()
+        .setTitle("◄[⏳]► Recherche en cours ! ◄[⌛]►")
+        //.setDescription("Comptage des objets en cours !")
+        //.addField("◄[🔎]► Objets trouvés :", `${cartesaleatoire} ${bonusrandome}\n${cartesaleatoired} ${bonusrandom}`)
+        .setDescription("Tirage des cartes en cours !")
+        .addField("◄[🔎]► Cartes tirées :", `${cartesaleatoire} \n${cartesaleatoired} `)
+        .setFooter("★━━━━━━━━━━━━━━━━━━━━★")
+
+
+    if (message.content == prefix + "tirer") {
+        if (viee[5] == "tirage") {
+            if (viee[1] == `${message.author.username}`) {
+                if (viee[2] == 2) {
+
+                    message.reply("Tirage effectué en mp !")
+                    db.get("game").find({ game1: "ok" }).assign({ player1ok: viee[2] = "vote" }).write();
+                    message.author.send(tirageobjet);
+                    db.get("game").find({ game1: "ok" }).assign({ player1carte1: viee[8] = cartesaleatoire, player1carte2: viee[9] = cartesaleatoired }).write();
+                    db.get("game").find({ game1: "ok" }).assign({ player1total: viee[12] = cartesaleatoire + cartesaleatoired }).write();
+                    message.author.send("En attente du joueur 2")
+                    if (viee[4] == "vote") {
+                        db.get("game").find({ game1: "ok" }).assign({ gamego: viee[5] = "vote" }).write();
+                        message.channel.send("Faite votre pronostic en MESSAGE PRIVE avec le bot ! (<win si vous pensez gagner et <lose si vous pensez perdre.)")
+                    }
+                }
+            }
+            if (viee[3] == `${message.author.username}`) {
+                if (viee[4] == 2) {
+
+                    message.reply("Tirage effectué en mp !")
+                    db.get("game").find({ game1: "ok" }).assign({ player2ok: viee[4] = "vote" }).write();
+                    message.author.send(tirageobjet);
+                    db.get("game").find({ game1: "ok" }).assign({ player2carte1: viee[10] = cartesaleatoire, player2carte2: viee[11] = cartesaleatoired }).write();
+                    db.get("game").find({ game1: "ok" }).assign({ player2total: viee[13] = cartesaleatoire + cartesaleatoired }).write();
+                    message.author.send("En attente du joueur 1")
+                    if (viee[2] == "vote") {
+                        db.get("game").find({ game1: "ok" }).assign({ gamego: viee[5] = "vote" }).write();
+                        message.channel.send("Faite votre pronostic en MESSAGE PRIVE avec le bot ! (<win si vous pensez gagner et <lose si vous pensez perdre.)")
+                    }
+                }
+            }
+        }
+    }
+
+
+
+    var result = new Discord.RichEmbed()
+        .setColor("#590599")
+        .setTitle("◄[🏆]► Tableau des scores ◄[🥇]► ◄[🥈]►")
+        .addField(`Joueur 1 (${viee[1]}) :`, ` ${viee[8]} + ${viee[9]} = ${viee[12]} points`)
+        .addField(`Joueur 2 (${viee[3]}) :`, ` ${viee[10]} + ${viee[11]} = ${viee[13]} points`)
+        .setFooter("★━━━━━━━━━━━━━━━━━━━━━━━━━━━★")
+        .setDescription(`${viee[14]} gagne la partie et gagne les ${viee[15]} points !`)
+
+    if (message.content == prefix + "win" || message.content == prefix + "w") {
+        if (message.channel.type === 'dm') {
+            if (viee[12] > viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = viee[1], playerwinid: viee[20] = viee[18] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ playerloose: viee[16] = viee[3], playerlooseid: viee[21] = viee[19] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ winner: viee[15] = viee[8] + viee[9] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ looser: viee[17] = viee[10] + viee[11] }).write();
+            }
+            if (viee[12] < viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = viee[3], playerwinid: viee[20] = viee[19] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ playerloose: viee[16] = viee[1], playerlooseid: viee[21] = viee[18] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ winner: viee[15] = viee[10] + viee[11] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ looser: viee[17] = viee[8] + viee[9] }).write();
+            }
+            if (viee[12] == viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = "Égalité ! Personne ne ", winner: viee[15] = viee[10] + viee[11] }).write();
+            }
+            if (viee[5] == "vote") {
+
+                if (viee[1] == `${message.author.username}`) {
+                    if (viee[6] == "nop") {
+                        message.reply("Vote validé !")
+                        db.get("game").find({ game1: "ok" }).assign({ player1vote: viee[6] = "win" }).write();
+                        if (viee[7] == "win" || viee[7] == "loose") {
+
+                            bot.channels.get("631878952767717377").send("Les 2 joueurs ont voté, les résultats sont disponible avec la commande <result")
+
+                        }
+                    }
+                }
+                if (viee[3] == `${message.author.username}`) {
+                    if (viee[7] == "nop") {
+                        message.reply("Vote validé !")
+                        db.get("game").find({ game1: "ok" }).assign({ player2vote: viee[7] = "win" }).write();
+                        if (viee[6] == "win" || viee[6] == "loose") {
+
+                            bot.channels.get("631878952767717377").send("Les 2 joueurs ont voté, les résultats sont disponible avec la commande <result")
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (message.content == prefix + "loose" || message.content == prefix + "lose" || message.content == prefix + "l") {
+        if (message.channel.type === 'dm') {
+            if (viee[12] > viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = viee[1], playerwinid: viee[20] = viee[18] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ playerloose: viee[16] = viee[3], playerlooseid: viee[21] = viee[19] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ winner: viee[15] = viee[8] + viee[9] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ looser: viee[17] = viee[10] + viee[11] }).write();
+            }
+            if (viee[12] < viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = viee[3], playerwinid: viee[20] = viee[19] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ playerloose: viee[16] = viee[1], playerlooseid: viee[21] = viee[18] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ winner: viee[15] = viee[10] + viee[11] }).write();
+                db.get("game").find({ game1: "ok" }).assign({ looser: viee[17] = viee[8] + viee[9] }).write();
+            }
+            if (viee[12] == viee[13]) {
+                db.get("game").find({ game1: "ok" }).assign({ playerwin: viee[14] = "Égalité ! Personne ne " }).write();
+            }
+            if (viee[5] == "vote") {
+                if (viee[1] == `${message.author.username}`) {
+                    if (viee[6] == "nop") {
+                        message.reply("Vote validé !")
+                        db.get("game").find({ game1: "ok" }).assign({ player1vote: viee[6] = "loose" }).write();
+                        if (viee[7] == "win" || viee[7] == "loose") {
+                            //  message.channel.send("Les résultats sont disponible avec la commande <result")
+                            bot.channels.get("631878952767717377").send("Les 2 joueurs ont voté, les résultats sont disponible avec la commande <result")
+                        }
+                    }
+                }
+                if (viee[3] == `${message.author.username}`) {
+                    if (viee[7] == "nop") {
+                        message.reply("Vote validé !")
+                        db.get("game").find({ game1: "ok" }).assign({ player2vote: viee[7] = "loose" }).write();
+                        if (viee[6] == "win" || viee[6] == "loose") {
+                            bot.channels.get("631878952767717377").send("Les 2 joueurs ont voté, les résultats sont disponible avec la commande <result")
+
+
+                        }
+                    }
+                }
+            }
+        }
+    }
+    if (message.content == prefix + "result") {
+        if (message.channel.type === 'dm') return;
+
+        var userpldb = db.get("gamep").filter({ id: viee[21] }).find(`points`).value();
+        var userpl = Object.values(userpldb)
+        var userpdb = db.get("gamep").filter({ id: viee[20] }).find(`points`).value();
+        var userp = Object.values(userpdb)
+        if (viee[6] && viee[7] != "nop") {
+
+            if (viee[12] === viee[13]) {
+                db.get("gamep").find({ id: viee[20] }).assign({ egalite: userp[6] += 1, total: userp[4] += 1 }).write();
+                db.get("gamep").find({ id: viee[21] }).assign({ egalite: userpl[6] += 1, total: userpl[4] += 1 }).write();
+            }
+            if (viee[12] < viee[13] || viee[12] > viee[13]) {
+
+                db.get("gamep").find({ id: viee[20] }).assign({ id: viee[20], points: userp[1] += viee[15], victoires: userp[2] += 1, total: userp[4] += 1 }).write();
+                db.get("gamep").find({ id: viee[21] }).assign({ id: viee[21], défaites: userpl[3] += 1, total: userpl[4] += 1, points: userpl[1] -= viee[17] }).write();
+
+                if (viee[14] == viee[1]) { // vérifie si le joueur 1 gagne la partie
+                    if (viee[6] == "win") { // 
+                        db.get("gamep").find({ id: viee[20] }).assign({ points: userp[1] += 7 }).write();
+                    }
+                    if (viee[6] == "loose") { // perd des points si il gagne mais vote qu'il perd
+                        db.get("gamep").find({ id: viee[20] }).assign({ points: userp[1] -= 3 }).write();
+                    }
+                }
+                if (viee[16] == viee[1]) { // vérifie si le joueur 1 perd  la partie
+                    if (viee[6] == "win") { // mauvais vote + perd
+                        db.get("gamep").find({ id: viee[21] }).assign({ points: userpl[1] -= 7 }).write();
+                    }
+                    if (viee[6] == "loose") { // bon vote mais perd
+                        db.get("gamep").find({ id: viee[21] }).assign({ points: userpl[1] += 3 }).write();
+                    }
+                }
+                if (viee[14] == viee[3]) { // vérifie si le joueur 2 gagne la partie
+                    if (viee[7] == "win") { // 
+                        db.get("gamep").find({ id: viee[20] }).assign({ points: userp[1] += 7 }).write();
+                    }
+                    if (viee[7] == "loose") { // perd des points si il gagne mais vote qu'il perd
+                        db.get("gamep").find({ id: viee[20] }).assign({ points: userp[1] -= 3 }).write();
+                    }
+                }
+                if (viee[16] == viee[3]) { // vérifie si le joueur 2 perd  la partie
+                    if (viee[7] == "win") { // mauvais vote + perd
+                        db.get("gamep").find({ id: viee[21] }).assign({ points: userpl[1] -= 7 }).write();
+                    }
+                    if (viee[7] == "loose") { // bon vote mais perd
+                        db.get("gamep").find({ id: viee[21] }).assign({ points: userpl[1] += 3 }).write();
+                    }
+                }
+            }
+            message.channel.send({ embed: result });
+            db.get("game").find({ game1: "ok" }).assign({
+                player1ok: viee[2] = 1,
+                player2ok: viee[4] = 1,
+                gamego: viee[5] = 1,
+                player1vote: viee[6] = "nop",
+                player2vote: viee[7] = "nop",
+                player1: viee[1] = "fdgvd",
+                player2: viee[3] = "frfd"
+            }).write();
+        }
+    }
+    if (message.content === prefix + "stat") {
+        if (!db.get("gamep").find({ id: msgauthorid }).value()) {
+            db.get("gamep").push({ username: msgauthor, points: 1501, victoires: 1, défaites: 1, total: 1, id: msgauthorid, egalite: 1 }).write();
+        }
+        var pointsdb = db.get("gamep").filter({ id: msgauthorid }).find('points').value()
+        var points = Object.values(pointsdb);
+        db.get("gamep").find({ id: msgauthorid }).assign({ username: msgauthor, points: points[1] += 0 }).write();
+        var percent = Math.floor(100 * `${points[2] -= 1}` / `${points[4] -= 1}`) + '%';
         var xp_embed = new Discord.RichEmbed()
-            .addField("Nombre de messages postés sur le Discord :", `${message.author.username} : ${xpfinal[1]} messages` )
-        message.channel.send({embed: xp_embed});
-        
+            .setColor("#590599")
+            .setTitle("☆-—————STATISTIQUES—————-☆")
+            .addField(`${message.author.username} :`, `◄[🏆]► Points : ${points[1] += -1}\n◄[🥇]► Victoires : ${points[2]}\n◄[🥈]► Défaites : ${points[3] -= 1}\n◄[🤔]► Egalités : ${points[6] -= 1}\n◄[⚔️]► Nombre de parties jouées : ${points[4]}\n◄[⚖️]► ${percent} de victoires`)
+            .setFooter("★━━━━━━━━━━━━━━━━━━━★")
+        message.channel.send({ embed: xp_embed });
     }
 
-    if (message.content === prefix + "pf"){
-        random_pf();
-           
-            if (randnum == 1){
-                message.reply("face");
-                console.log(randnum);
-            }
 
-            if (randnum == 0){
-                message.reply("pile");
-                console.log(randnum);
-}}
+    if (message.content === "test") {
 
-
-
-
-
-
-});
-
-
-function story_random(min, max) {
-    min =Math.ceil(0);
-    max = Math.floor(storynumber);
-    randnum = Math.floor(Math.random() * (max - min) + min);
-}
-
-
-function random(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(2);
-    randnum = Math.floor(Math.random() * (max - min +1) + min);
-
-}
-
-function random_pf(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(1);
-    randnum = Math.floor(Math.random() * (max - min +1) + min);
-
-}
-function randomperso(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(11);
-    randnum = Math.floor(Math.random() * (max - min +1) + min);
-
-}
-function randomlul(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(rlul);
-    randnum = Math.floor(Math.random() * (max - min) + min);
-
-}
-
-function randomkill(min, max) {
-    min = Math.ceil(0);
-    max = Math.floor(rkill);
-    randnum = Math.floor(Math.random() * (max - min) + min);
-
-}
-
-
-    
-
-    var number_random = 0;
-
-var party_launch = false;
-
-bot.on('message', function(message){
-    if(message.content == prefix + "chasse start"){
-
-        message.reply("Chasse lancée ! :telescope: Je vois des Titans au loin, essaye de les compter ! tu as juste me dire combien tu vois et je te dirais si j'en vois autant ou pas ");
-        
-
-        party_launch = true;
-
-        number_random = Math.floor(Math.random() * (500 - 0) + 0)
-
-        console.log(number_random);
+        const ayy = bot.emojis.find("name", "nazig");
+        message.reply(`${ayy}`);
 
     }
-        if(party_launch && message.content != null){
+    let pUser = message.mentions.users.first()
 
-            if(Number.isInteger(parseInt(message.content))){
-    
-
-            
-            if(message.content > number_random){
-
-                message.reply("Il y'a moins de Titans !")
-            }
-            else if (message.content < number_random){
-
-                message.reply("Il y'a plus de Titans !")
-            }
-            else if (message.content = number_random + "/"){
-                
-                message.reply("Je n'ai pas compris votre réponse !")
-            }else{ (message.content = number_random)
-
-                message.reply('à trouvé le bon nombre de Titans !');
-                party_launch = false;
-            }
+    if (message.content.startsWith(prefix + "stat")) {
+        if (!pUser) {
         }
-        
-    }
-
-    if(message.content == prefix + "chasse stop"){
-
-        if(party_launch = true){
-
-            message.reply("Les Titans sont partis...")
-
-            party_launch = false;
-
-        }else{
-
-            message.reply("Il n'y a pas de Titans dans les environs")
+        else {
+            if (!db.get("gamep").find({ id: pUser.id }).value()) {
+                db.get("gamep").push({ username: pUser.username, points: 1501, victoires: 1, défaites: 1, total: 1, id: pUser.id, egalite: 1 }).write();
+            }
+            var pointsusedb = db.get("gamep").filter({ id: pUser.id }).find('points').value()
+            var pointsuser = Object.values(pointsusedb);
+            db.get("gamep").find({ id: pUser }).assign({ username: pUser, points: pointsuser[1] += 0 }).write();
+            var percent = Math.floor(100 * `${pointsuser[2] -= 1}` / `${pointsuser[4] -= 1}`) + '%';
+            var xp_embeduser = new Discord.RichEmbed()
+                .setColor("#590599")
+                .setTitle("☆-—————STATISTIQUES—————-☆")
+                .addField(`${pUser.username} :`, `◄[🏆]► Points : ${pointsuser[1] += -1}\n◄[🥇]► Victoires : ${pointsuser[2]}\n◄[🥈]► Défaites : ${pointsuser[3] -= 1}\n◄[🤔]► Egalités : ${pointsuser[6] -= 1}\n◄[⚔️]► Nombre de parties jouées : ${pointsuser[4]}\n◄[⚖️]► ${percent} de victoires`)
+                .setFooter("★━━━━━━━━━━━━━━━━━━━★")
+            message.channel.send({ embed: xp_embeduser });
         }
-
     }
+
+
+    // let sald = message.guild.channels.find(channels => channels.name ===  "test");
+    // if (message.channel === sald) { 
+
+    //  if(message.content.startsWith("")){
+    // bot.channels.get("631878952767717377").send(message.content.slice(0, message.content.length));
+    //  }
+    // }
 })
 
 
+bot.on('guildMemberAdd', member => {
+    let oui = member.guild.roles.find(role => role.name === "Oui");
 
+    var bienvenue_embed = new Discord.RichEmbed()
+        .addField("Discord Bot Alex", "BIENVENUE SUR CE SERVEUR DE MALADE WAOUUUH")
+        .setFooter("Je vous aime bien, sauf si vous vous appelez Victor")
+    member.sendMessage(bienvenue_embed);
+
+    member.addRole(oui);
+})
+
+
+bot.on('message', function (message) {
+    if (message.channel.type === 'dm') return;
+    if (message.author.bot) return;
+    var chassedb = db.get("chasse").find('nombre').value()
+    var nombre = Object.values(chassedb);
+    let chs = message.guild.channels.find(channels => channels.name === "plus-ou-moins");
+    if (message.channel === chs) {
+        if (message.content == prefix + "justenombre") {
+            if (nombre[3] <= 4) {
+                if (nombre[0] == "azertyuiop") {
+                    message.reply("Tirage aléatoire effectué, essayez de trouver le bon nombre entre 0 et 500 !")
+                    number_random = Math.floor(Math.random() * (500 - 0) + 0)
+                    console.log(number_random);
+                    db.get("chasse").find({ partieetat: "attente" }).assign({ partieetat: nombre[1] = "start", nombre: nombre[0] = number_random, essaisold: nombre[4] = 0 }).write();
+                } else {
+                    message.reply("Une partie est déjà en cours !")
+                }
+            }
+
+        }
+        if (nombre[1] == "start") {
+            if (message.content > nombre[0]) {
+                message.reply("C'est moins !")
+                db.get("chasse").find("nombre").assign({ essais: nombre[2] += 1 }).write();
+            }
+            else if (message.content < nombre[0]) {
+                message.reply("C'est plus !")
+                db.get("chasse").find("nombre").assign({ essais: nombre[2] += 1 }).write();
+            }
+            if (message.content == nombre[0]) {
+                if (nombre[3] <= 4) {
+                    var msgauthor = message.author.username;
+                    message.reply(`à trouvé le bon nombre, félicitation ! (en ` + `${nombre[2]}` + ` essais)`);
+                    db.get("chasse").find("nombre").assign({
+                        nombre: nombre[0] = "azertyuiop",
+                        partieetat: nombre[1] = "attente",
+                        essaisold: nombre[4] = nombre[2],
+                        essais: nombre[2] = 1,
+
+                    }).write();
+                }
+            }
+        }
+    }
+})
