@@ -1,171 +1,75 @@
 {
-  "sugg": [
+  "game": [
     {
-      "story_value": "mettres des phrases ou citations de la série aléatoirement quand on fais <pc (ou une autre command)",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": "commande <clear",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": "<role a faire",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": "commande musique",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": "Améliorer le  <réseaux",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": "ajouter un classement des gens avec le truc !rank",
-      "story_author": "Fury-W"
-    },
-    {
-      "story_value": "le systeme de niveau en fait je trouve ca sympa",
-      "story_author": "Fury-W"
+      "game1": "ok",
+      "player1": "fdgvd",
+      "player1ok": 1,
+      "player2": "frfd",
+      "player2ok": 1,
+      "gamego": 1,
+      "player1vote": "nop",
+      "player2vote": "nop",
+      "player1carte1": 8,
+      "player1carte2": 2,
+      "player2carte1": 8,
+      "player2carte2": 2,
+      "player1total": 10,
+      "player2total": 10,
+      "playerwin": "Égalité ! Personne ne ",
+      "winner": 14,
+      "playerloose": "Alex_",
+      "looser": 13,
+      "player1id": "219734758647791616",
+      "player2id": "219734758647791616",
+      "playerwinid": "490923570575179786",
+      "playerlooseid": "219734758647791616"
     }
   ],
-  "story": [],
-  "xp": [
-    {
-      "xp": 1
-    },
+  "gamep": [
     {
       "username": "Alex_",
-      "xp": 1001
+      "points": 1392,
+      "victoires": 3,
+      "défaites": 13,
+      "total": 15,
+      "id": "219734758647791616",
+      "egalite": 1
     },
     {
-      "username": "Fury-W",
-      "xp": 251
+      "username": "Alextwo",
+      "points": 1689,
+      "victoires": 13,
+      "défaites": 3,
+      "total": 15,
+      "id": "490923570575179786",
+      "egalite": 1
+    },
+    {
+      "username": "Rose_Hargan",
+      "points": 1501,
+      "victoires": 1,
+      "défaites": 1,
+      "total": 1,
+      "id": "351761591148216330",
+      "egalite": 1
     }
   ],
-  "perso": [
+  "chasse": [
     {
-      "perso_value": "Berthold Hoover"
-    },
-    {
-      "perso_value": "Sasha Braus"
-    },
-    {
-      "perso_value": "Conny Splingler"
-    },
-    {
-      "perso_value": "Jean Kirschtein"
-    },
-    {
-      "perso_value": "Hansi Zoe"
-    },
-    {
-      "perso_value": "Marco Bott"
-    },
-    {
-      "perso_value": "Thomas Wagner"
-    },
-    {
-      "perso_value": "Erwin Smith"
-    },
-    {
-      "perso_value": "Livaï"
-    },
-    {
-      "perso_value": "Mikasa Akerman"
-    },
-    {
-      "perso_value": "Armin Arlet"
-    },
-    {
-      "perso_value": "Eren Jäger"
-    },
-    {
-      "perso_value": "Pétra Ralle"
-    },
-    {
-      "perso_value": "Auruo Bossard"
-    },
-    {
-      "perso_value": "Gunther Schültz"
-    },
-    {
-      "perso_value": "Erd Gin"
+      "nombre": "azertyuiop",
+      "partieetat": "attente",
+      "essais": 1,
+      "spécial": 2,
+      "essaisold": 9
     }
   ],
-  "lul": [
-    {
-      "lul_value": "faire la vaiselle"
-    },
-    {
-      "lul_value": "se cacher dans une poubelle"
-    },
-    {
-      "lul_value": "faire de la corde a sauter"
-    },
-    {
-      "lul_value": "parler avec un escargot :snail: "
-    },
-    {
-      "lul_value": "boire une bierre :beer: "
-    },
-    {
-      "lul_value": "bronzer au soleil :sunglasses:"
-    },
-    {
-      "lul_value": "manger une glace :icecream: "
-    },
-    {
-      "lul_value": "marcher en talons aiguilles :high_heel: "
-    },
-    {
-      "lul_value": "parler espagnol pour le fun :flag_es: "
-    },
-    {
-      "lul_value": "faire des pompes :muscle: "
-    },
-    {
-      "lul_value": "draguer des filles :heart: "
-    },
-    {
-      "lul_value": "courir après une poule :rooster:  "
-    }
+  "playergame": [],
+  "money": [],
+  "lvl": [],
+  "xp": [],
+  "pt": [
+    1
   ],
-  "blagues": [
-    {
-      "story_value": " test",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": " mdr",
-      "story_author": "Alex_"
-    },
-    {
-      "story_value": " pute",
-      "story_author": "Alex_"
-    }
-  ],
-  "kill": [
-    {
-      "kill_value": " avec une pelle !"
-    },
-    {
-      "kill_value": " a mains nues !"
-    },
-    {
-      "kill_value": " avec sa bite. (c'est pas très convivial !)"
-    },
-    {
-      "kill_value": " avec des explosifs"
-    },
-    {
-      "kill_value": " en chantant du Jul"
-    },
-    {
-      "kill_value": " avec un lance-flamme"
-    },
-    {
-      "kill_value": " avec fichier.mp3 de Davidlafargepokemon 'HEYYYYYYYYYYYYSALUTATOUSLESAMIS C'EST DAVIDLFARGEPOKEMON' "
-    }
-  ]
+  "pendu": [],
+  "devine": []
 }
