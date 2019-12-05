@@ -1,0 +1,83 @@
+{
+  "channelSelected": [
+    {
+      "channelId": "631914493768630272"
+    },
+    {
+      "channelId": "none"
+    }
+  ],
+  "game": [
+    {
+      "game1": "ok",
+      "player1": "fdgvd",
+      "player1ok": 1,
+      "player2": "frfd",
+      "player2ok": 1,
+      "gamego": 1,
+      "player1vote": "nop",
+      "player2vote": "nop",
+      "player1carte1": 8,
+      "player1carte2": 2,
+      "player2carte1": 8,
+      "player2carte2": 2,
+      "player1total": 10,
+      "player2total": 10,
+      "playerwin": "Égalité ! Personne ne ",
+      "winner": 14,
+      "playerloose": "Alex_",
+      "looser": 13,
+      "player1id": "219734758647791616",
+      "player2id": "219734758647791616",
+      "playerwinid": "490923570575179786",
+      "playerlooseid": "219734758647791616"
+    }
+  ],
+  "gamep": [
+    {
+      "username": "Alex_",
+      "points": 1501,
+      "victoires": 1,
+      "défaites": 1,
+      "total": 1,
+      "id": "219734758647791616",
+      "egalite": 1
+    }
+  ],
+  "tickets": [
+    {
+      "memberId": "219734758647791616",
+      "status": "open",
+      "type": "Suggestion",
+      "ticket": "ezaeaz"
+    },
+    {
+      "memberId": "219734758647791616",
+      "status": "open",
+      "type": "Bug",
+      "ticket": "zaea"
+    },
+    {
+      "memberId": "219734758647791616",
+      "status": "waiting for the choice",
+      "type": "none",
+      "ticket": "none"
+    }
+  ],
+  "pendu": [
+    {
+      "init": 1,
+      "mot": "tesrttestrezrezvbvefc",
+      "nombreLettres": "tesrttestrezrezvbvefc21"
+    }
+  ],
+  "chasse": [
+    {
+      "nombre": 309,
+      "partieetat": "start",
+      "essais": 1,
+      "spécial": 2,
+      "essaisold": 0
+    }
+  ]
+}
