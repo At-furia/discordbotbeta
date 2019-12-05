@@ -13,7 +13,7 @@ var prefix = "!"
 var bot = new Discord.Client();
 
 bot.on('ready', () => {
-    bot.user.setPresence({ game: { name: '...', type: 3 } });
+    bot.user.setPresence({ game: { name: 'Draguer Stewens', type: 1 } });
     bot.user.setStatus("idle");
     console.log("Bot Ready !");
 })
