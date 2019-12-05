@@ -26,7 +26,6 @@ bot.on('message', function (message) {
     var chassedb = db.get("chasse").find('nombre').value()
     var nombre = Object.values(chassedb);
         if (message.content == prefix + "justenombre") {
-            message.reply("test")
             if (nombre[3] <= 4) {
                 if (nombre[0] == "azertyuiop") {
                     message.reply("Tirage aléatoire effectué, essayez de trouver le bon nombre entre 0 et 500 !")
@@ -37,7 +36,6 @@ bot.on('message', function (message) {
                     message.reply("Une partie est déjà en cours !")
                 }
             }
-
         }
         if (nombre[1] == "start") {
             if (message.content > nombre[0]) {
