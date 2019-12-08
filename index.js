@@ -183,6 +183,35 @@ if (message.content == prefix + "restart") {
             pTour: morpion = "j1"
         }).write();
     }
+    
+    if (
+        morpion[1] == "🔴" || morpion[1] == "🟡" &&
+        morpion[2] == "🔴" || morpion[2] == "🟡" &&
+        morpion[3] == "🔴" || morpion[3] == "🟡" &&
+        morpion[4] == "🔴" || morpion[4] == "🟡" &&
+        morpion[5] == "🔴" || morpion[5] == "🟡" &&
+        morpion[6] == "🔴" || morpion[6] == "🟡" &&
+        morpion[7] == "🔴" || morpion[7] == "🟡" &&
+        morpion[8] == "🔴" || morpion[8] == "🟡" &&
+        morpion[9] == "🔴" || morpion[9] == "🟡"
+    ) {
+        message.reply("Egalité !")
+        db.get("morpion").find("p1").assign({
+            1: morpion = "⚪",
+            2: morpion = "⚪",
+            3: morpion = "⚪",
+            4: morpion = "⚪",
+            5: morpion = "⚪",
+            6: morpion = "⚪",
+            7: morpion = "⚪",
+            8: morpion = "⚪",
+            9: morpion = "⚪",
+            p1: morpion = "none",
+            p2: morpion = "none",
+            pTour: morpion = "j1"
+        }).write();
+
+    }
 })
 
 bot.on('messageReactionAdd', (reaction, user) => {
