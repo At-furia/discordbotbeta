@@ -69,35 +69,62 @@ bot.on('message', function (message) {
 bot.on('message', message => {
 
     var msgauthorid = message.author.id
-    var morpiondb = db.get("morpion").find('0').value()
-    var morpion = Object.values(morpiondb);
+    if (!db.get("morpion").find({ idGuild: message.guild.id }).value()) {
+        db.get("morpion").push({ 
+            0: morpion = "balek",
+            1: morpion = "⚪",
+            2: morpion = "⚪",
+            3: morpion = "⚪",
+            4: morpion = "⚪",
+            5: morpion = "⚪",
+            6: morpion = "⚪",
+            7: morpion = "⚪",
+            8: morpion = "⚪",
+            9: morpion = "⚪",
+            p1: morpion = "none",
+            p2: morpion = "none",
+            pTour: morpion = "j1",
+            idGuild: morpion = message.guild.id,
+            stat: morpion = 0
+         }).write();
+    }
+    
+    var morpiondb = db.get("morpion").find({idGuild: message.guild.id}).value()
+    var morpion = Object.values(morpiondb)
 
     if (message.content == prefix + "1") {
         if (message.author.bot) return;
+
         if (message.channel.type === 'dm') return;
         if (morpion[10] == "none") {
             if (morpion[11] == msgauthorid) {
                 message.reply("Vous ne pouvez pas jouer contre vous même..")
             } else {
                 message.reply("Tu es le joueur 1 !")
-                db.get("morpion").find("p1").assign({
+                db.get("morpion").find({idGuild: message.guild.id}).assign({
                     p1: morpion = msgauthorid
                 }).write();
             }
+        } else {
+            message.reply("Il y'a déjà un joueur 1")
         }
     }
     if (message.content == prefix + "2") {
         if (message.author.bot) return;
         if (message.channel.type === 'dm') return;
         if (morpion[11] == "none") {
+            message.reply("zaz")
+
             if (morpion[10] == msgauthorid) {
                 message.reply("Vous ne pouvez pas jouer contre vous même..")
             } else {
                 message.reply("Tu es le joueur 2 !")
-                db.get("morpion").find("p2").assign({
+                db.get("morpion").find({idGuild: message.guild.id}).assign({
                     p2: morpion = msgauthorid
                 }).write();
             }
+        } else {
+            message.reply("Il y'a déjà un joueur 2")
         }
     }
 
@@ -112,6 +139,7 @@ bot.on('message', message => {
                 .setTitle("☆-—————Morpion—————-☆")
                 .setDescription(`${morpion[1]}${morpion[2]}${morpion[3]}\n${morpion[4]}${morpion[5]}${morpion[6]}\n${morpion[7]}${morpion[8]}${morpion[9]}`)
                 .setFooter("★━━━━━━━━━━━━━━━━━━━★")
+
             message.channel.send({ embed: ticket_embed }).then(function (message) {
 
                 message.react('↖️')
@@ -128,23 +156,24 @@ bot.on('message', message => {
         }
     }
 
-if (message.content == prefix + "restart") {
+    if (message.content == prefix + "restart") {
 
-    db.get("morpion").find("p1").assign({
-        1: morpion = "⚪",
-        2: morpion = "⚪",
-        3: morpion = "⚪",
-        4: morpion = "⚪",
-        5: morpion = "⚪",
-        6: morpion = "⚪",
-        7: morpion = "⚪",
-        8: morpion = "⚪",
-        9: morpion = "⚪",
-        p1: morpion = "none",
-        p2: morpion = "none",
-        pTour: morpion = "j1"
-    }).write();
-}
+        db.get("morpion").find({idGuild: message.guild.id}).assign({
+            0: morpion = "balek",
+            1: morpion = "⚪",
+            2: morpion = "⚪",
+            3: morpion = "⚪",
+            4: morpion = "⚪",
+            5: morpion = "⚪",
+            6: morpion = "⚪",
+            7: morpion = "⚪",
+            8: morpion = "⚪",
+            9: morpion = "⚪",
+            p1: morpion = "none",
+            p2: morpion = "none",
+            pTour: morpion = "j1"
+        }).write();
+    }
 
 
 
@@ -166,8 +195,10 @@ if (message.content == prefix + "restart") {
         (morpion[3] == "🔴" && morpion[5] == "🔴" && morpion[7] == "🔴") ||
         (morpion[3] == "🟡" && morpion[5] == "🟡" && morpion[7] == "🟡")
     ) {
+
         message.channel.send("Un joueur a gagné !")
-        db.get("morpion").find("p1").assign({
+        db.get("morpion").find({idGuild: message.guild.id}).assign({
+            0: morpion = "balek",
             1: morpion = "⚪",
             2: morpion = "⚪",
             3: morpion = "⚪",
@@ -179,51 +210,45 @@ if (message.content == prefix + "restart") {
             9: morpion = "⚪",
             p1: morpion = "none",
             p2: morpion = "none",
-            pTour: morpion = "j1"
+            pTour: morpion = "j1",
+            stat: morpion = 0
+
+        }).write();
+    }
+
+
+    if (morpion[14] >= 9) {
+        message.channel.send("Egalité")
+        db.get("morpion").find({idGuild: message.guild.id}).assign({
+            0: morpion = "balek",
+            1: morpion = "⚪",
+            2: morpion = "⚪",
+            3: morpion = "⚪",
+            4: morpion = "⚪",
+            5: morpion = "⚪",
+            6: morpion = "⚪",
+            7: morpion = "⚪",
+            8: morpion = "⚪",
+            9: morpion = "⚪",
+            p1: morpion = "none",
+            p2: morpion = "none",
+            pTour: morpion = "j1",
+            stat: morpion = 0
+
         }).write();
     }
     
-//     if (
-//         morpion[1] == "🔴" || morpion[1] == "🟡" &&
-//         morpion[2] == "🔴" || morpion[2] == "🟡" &&
-//         morpion[3] == "🔴" || morpion[3] == "🟡" &&
-//         morpion[4] == "🔴" || morpion[4] == "🟡" &&
-//         morpion[5] == "🔴" || morpion[5] == "🟡" &&
-//         morpion[6] == "🔴" || morpion[6] == "🟡" &&
-//         morpion[7] == "🔴" || morpion[7] == "🟡" &&
-//         morpion[8] == "🔴" || morpion[8] == "🟡" &&
-//         morpion[9] == "🔴" || morpion[9] == "🟡"
-//     ) {
-//         message.reply("Egalité !")
-//         db.get("morpion").find("p1").assign({
-//             1: morpion = "⚪",
-//             2: morpion = "⚪",
-//             3: morpion = "⚪",
-//             4: morpion = "⚪",
-//             5: morpion = "⚪",
-//             6: morpion = "⚪",
-//             7: morpion = "⚪",
-//             8: morpion = "⚪",
-//             9: morpion = "⚪",
-//             p1: morpion = "none",
-//             p2: morpion = "none",
-//             pTour: morpion = "j1"
-//         }).write();
-
-//     }
 })
 
 bot.on('messageReactionAdd', (reaction, user) => {
 
-    var msgauthorid = user.id
-    var morpiondb = db.get("morpion").filter({ 0: "weee" }).find('0').value()
+    var morpiondb = db.get("morpion").find({idGuild: reaction.message.guild.id}).value()
     var morpion = Object.values(morpiondb);
 
 
 
     function rep(message) {
-        var msgauthorid = user.id
-        var morpiondb = db.get("morpion").filter({ 0: "weee" }).find('0').value()
+        var morpiondb = db.get("morpion").find({idGuild: reaction.message.guild.id}).value()
         var morpion = Object.values(morpiondb);
         var relou = new Discord.RichEmbed()
             .setColor("#590599")
@@ -248,78 +273,82 @@ bot.on('messageReactionAdd', (reaction, user) => {
     }
 
     if (reaction.emoji.name === '↖️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[1] == "⚪") {
-        db.get("morpion").find("p2").assign({ 1: morpion = "🔴", pTour: morpion = "j2" }).write();
-        reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 1: morpion[1] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
+        //if (morpion[13] == "gg") {
+            reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
+        //}
     }
     if (reaction.emoji.name === '⬆️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[2] == "⚪") {
-        db.get("morpion").find("p2").assign({ 2: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 2: morpion[2] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
+
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↗️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[3] == "⚪") {
-        db.get("morpion").find("p2").assign({ 3: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 3: morpion[3] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
+
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⬅️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[4] == "⚪") {
-        db.get("morpion").find("p2").assign({ 4: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 4: morpion[4] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⏺️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[5] == "⚪") {
-        db.get("morpion").find("p2").assign({ 5: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 5: morpion[5] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '➡️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[6] == "⚪") {
-        db.get("morpion").find("p2").assign({ 6: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 6: morpion[6] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↙️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[7] == "⚪") {
-        db.get("morpion").find("p2").assign({ 7: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 7: morpion[7] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⬇️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[8] == "⚪") {
-        db.get("morpion").find("p2").assign({ 8: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 8: morpion[8] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↘️' && morpion[12] == "j1" && user.id == morpion[10] && morpion[9] == "⚪") {
-        db.get("morpion").find("p2").assign({ 9: morpion = "🔴", pTour: morpion = "j2" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 9: morpion[9] = "🔴", pTour: morpion[12] = "j2", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 2** de jouer`).then(rep)
     }
 
 
 
     if (reaction.emoji.name === '↖️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[1] == "⚪") {
-        db.get("morpion").find("p2").assign({ 1: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 1: morpion[1] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⬆️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[2] == "⚪") {
-        db.get("morpion").find("p2").assign({ 2: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 2: morpion[2] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↗️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[3] == "⚪") {
-        db.get("morpion").find("p2").assign({ 3: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 3: morpion[3] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⬅️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[4] == "⚪") {
-        db.get("morpion").find("p2").assign({ 4: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 4: morpion[4] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⏺️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[5] == "⚪") {
-        db.get("morpion").find("p2").assign({ 5: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 5: morpion[5] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '➡️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[6] == "⚪") {
-        db.get("morpion").find("p2").assign({ 6: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 6: morpion[6] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↙️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[7] == "⚪") {
-        db.get("morpion").find("p2").assign({ 7: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 7: morpion[7] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '⬇️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[8] == "⚪") {
-        db.get("morpion").find("p2").assign({ 8: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 8: morpion[8] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
     if (reaction.emoji.name === '↘️' && morpion[12] == "j2" && user.id == morpion[11] && morpion[9] == "⚪") {
-        db.get("morpion").find("p2").assign({ 9: morpion = "🟡", pTour: morpion = "j1" }).write();
+        db.get("morpion").find({idGuild: reaction.message.guild.id}).assign({ 9: morpion[9] = "🟡", pTour: morpion[12] = "j1", stat: morpion[14] += 1 }).write();
         reaction.message.channel.send(`C'est au **JOUEUR 1** de jouer`).then(rep)
     }
 })
