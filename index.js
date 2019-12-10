@@ -113,8 +113,6 @@ bot.on('message', message => {
         if (message.author.bot) return;
         if (message.channel.type === 'dm') return;
         if (morpion[11] == "none") {
-            message.reply("zaz")
-
             if (morpion[10] == msgauthorid) {
                 message.reply("Vous ne pouvez pas jouer contre vous même..")
             } else {
